@@ -5,6 +5,9 @@ const cors = require('cors')
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const helmet = require('helmet')
+app.use(helmet())
+app.disable('x-powered-by')
 
 const config = require("./config/key");
 
@@ -35,6 +38,9 @@ app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));
 
+app.use('/kakao', require('./routes/kakao'));
+
+
 
 //use this to show the image you have in node js server to client (react js)
 //https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
@@ -53,7 +59,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5050
 
 app.listen(port, () => {
   console.log(`Server Listening on ${port}`)
