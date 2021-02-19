@@ -1,5 +1,22 @@
 const mongoose = require('mongoose');
 
+function formatDate(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return date.getFullYear()+ "/" + (date.getMonth()+1) + "/" + date.getDate();
+} 
+
+
+function getDate(){
+    var d = new Date();
+    return formatDate(d);
+}
+
 const userReqSchema = mongoose.Schema({
     name: {
         type:String,
@@ -19,11 +36,11 @@ const userReqSchema = mongoose.Schema({
         type:String
     },
     resCreated : {
-        type: Date
+        type: String,
     },
     reqCreated: {
-        type: Date,
-        default: Date.now
+        type: String,
+        default: getDate()
     },
     mieleMemo : {
         type: String
