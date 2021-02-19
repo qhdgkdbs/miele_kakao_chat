@@ -25,28 +25,47 @@ router.post('/', function(req, res) {
 	
 	console.log(toSaveData)
 
-    const responseBody = {
-      version: "2.0",
-      template: {
-        outputs: [
-			{
-				simpleText: {text : "성함 : " + userName +"\n연락처 : "+userCall +"\n문의내용 : "+ userReq}
-			},
-			{
-				simpleText: {text : "위의 내용으로 문의가 저장되었습니다. \n밀레 코리아를 이용해주셔서 감사합니다."}
-		  	}
-        ]
-      }
-    };
+
+
+    var sendText;
 
 
     const userReqData = new UserReq(toSaveData);
 
     userReqData.save((err, doc) => {
+        console.log("doc", doc)
         if (err) {
+            //에러가 있을경우
+            sendText =  [   
+                            { simpleText: {text : "성함 : " + userName +"\n연락처 : "+userCall +"\n문의내용 : "+ userReq} },
+                            { simpleText: {text : "문의 저장에 실패 하였습니다. 고객센터로 연락부탁드립니다." } } 
+                        ]
             console.log(err)
-            return res.status(200).send(responseBody);
+            // return res.status(200).send(responseBody);
+        }else{
+            //에러가 없을 경우
+            sendText =  [   
+                            { simpleText: {text : "성함 : " + doc.name +"\n연락처 : "+doc.call +"\n문의내용 : "+ doc.userReq} },
+                            { simpleText: {text : "문의 저장에 성공하였습니다." } } 
+                        ]
         }
+
+        var responseBody = {
+            version: "2.0",
+            template: {
+                outputs: 
+                    sendText,
+                quickReplies: [
+                    {
+                        "messageText": "첫 화면으로 돌아가기",
+                        "action": "message",
+                        "label": "첫 화면으로 돌아가기"
+                    }
+                ]
+            }
+          };
+
+
         return res.status(200).send(responseBody);
     });
       

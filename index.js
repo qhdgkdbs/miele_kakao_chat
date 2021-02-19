@@ -18,6 +18,8 @@ app.use(bodyParser.json());
 
 app.use('/api/getMyTracking', require('./router/getMyTracking'));
 app.use('/api/saveReq', require('./router/saveReq'));
+app.use('/api/getTrackingData', require('./router/getDB'));
+
 
 
 app.listen(8602, function() {
