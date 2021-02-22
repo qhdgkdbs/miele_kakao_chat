@@ -25,7 +25,7 @@ const userReqSchema = mongoose.Schema({
     call: {
         type:String,
         trim:true
-    },
+    },  
     userReq : {
         type:String,
     },
