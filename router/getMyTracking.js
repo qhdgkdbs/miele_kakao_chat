@@ -1,3 +1,5 @@
+
+const moment = require('moment')
 const express = require('express');
 const router = express.Router();
 const https = require('https');
@@ -11,13 +13,17 @@ router.post('/', function(req, res) {
     var sendText;
 
     var trackingNumber =""
+    var addr = ""
+    var name =""
     
-    Tracking.findOne({ name:userName , number : middleCall}, (err, data) => {
+    Tracking.findOne({ name: userName , number : middleCall}, (err, data) => {
       if(err) return res.json(err)
 
       if (data) {
         console.log(data)
         trackingNumber = data.tracking
+        addr = data.addr
+        name = data.name
 
         var trackingUrl = "https://apis.tracker.delivery/carriers/kr.cjlogistics/tracks/" + trackingNumber
 
@@ -41,7 +47,7 @@ router.post('/', function(req, res) {
            
             if(!receivedData.message){
               
-              var shippingData = "현재 상황 : " + receivedData.state.text + "\n배송 위치 : "+ receivedData.progresses[receivedData.progresses.length - 1].description
+              var shippingData = "받는 분 :" + name + "\n배송지 : " +addr+ "\n현재 상황 : " + receivedData.state.text + "\n배송 위치 : "+ receivedData.progresses[receivedData.progresses.length - 1].description
       
               sendMsg(trackingNumber, shippingData)
               // console.log("현재 상황 : " + receivedData.state.text + "\n배송 위치 : "+ receivedData.progresses[receivedData.progresses.length - 1].description );
@@ -84,6 +90,8 @@ router.post('/', function(req, res) {
         res.status(200).send(responseBody);
       }
   })
+
+  
 	
 
 	const sendMsg = (trackingNumber, shippingData, err = null) => {
@@ -148,5 +156,22 @@ router.post('/', function(req, res) {
 	}
     
   });
+
+  router.get("/del", (req, res) => {
+    Tracking.deleteMany({
+      created : { $lte: moment().subtract(1, 'years').format('YYYYMMDD') }
+  }, (err, docs)=>{
+      if (err){ 
+          console.log(err) 
+          return res.send({err})
+      } 
+      else{ 
+          return res.send({
+              success : true,
+              deletedData : docs
+          })
+      } 
+  })
+  })
 
   module.exports = router;

@@ -2,6 +2,39 @@ const express = require('express');
 const router = express.Router();
 const { UserReq } = require("../models/userReq");
 
+function formatDate() {
+    var date = new Date();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    var month = (date.getMonth()+1) ? '0'+(date.getMonth()+1) : (date.getMonth()+1);
+    return date.getFullYear()+ "" + month + "" + date.getDate();
+} 
+
+function formatTime(){
+    var date = new Date();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + '' + minutes
+
+    return strTime
+}
+
+
+function getDate(){
+    return formatDate();
+}
+
+function getTime(){
+    return formatTime(); 
+}
+
+
 
 router.post('/', function(req, res) {
 	var userName = req.body.action.params.name
@@ -20,7 +53,10 @@ router.post('/', function(req, res) {
         call : userCall,
         userReq : userReq,
         isItReq : isItisItReq,
-        isItVoucher : isItVoucher
+        isItVoucher : isItVoucher,
+        reqCreated : getDate(),
+        reqCreatedTime : getTime(),
+
     }
 	
 	console.log(toSaveData)

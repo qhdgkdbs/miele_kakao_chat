@@ -15,6 +15,9 @@ const trackingSchema = mongoose.Schema({
     },
     mall : {
         type:String
+    }, 
+    created : {
+        type:String
     }
 })
 
