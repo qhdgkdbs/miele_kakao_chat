@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
   var userName = req.body.action.params.name
   var middleCall = req.body.action.params.middleCall
 
-  Tracking.find({ name: userName , number : middleCall }, (err, datas) => {
+  Tracking.find({ name:  { $regex : userName} , number : middleCall }, (err, datas) => {
     if(err) return res.json(err)
 
     if(datas.length > 0) {
