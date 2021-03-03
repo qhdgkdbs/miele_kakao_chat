@@ -18,6 +18,9 @@ const userReqSchema = mongoose.Schema({
     },
     mieleResUser : {
         type:String
+    },    
+    resType : {
+        type:String
     },
     resCreated : {
         type: String,

@@ -12,7 +12,10 @@ function formatDate() {
     minutes = minutes < 10 ? '0'+minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     var month = (date.getMonth()+1) ? '0'+(date.getMonth()+1) : (date.getMonth()+1);
-    return date.getFullYear()+ "" + month + "" + date.getDate();
+
+    var day = (date.getDate()) ? '0'+(date.getDate()) : (date.getDate());
+
+    return date.getFullYear()+ "" + month + "" + day;
 } 
 
 function formatTime(){
@@ -40,23 +43,16 @@ router.post('/', function(req, res) {
 	var userName = req.body.action.params.name
 	var userCall = req.body.action.params.call
 	var userReq = req.body.action.params.req
-	var tempType = req.body.action.params.type
-    var isItisItReq = false
-    var isItVoucher = false
-
-    if(tempType == "req") {isItisItReq = true}
-    if(tempType == "voucher") {isItVoucher = true}
+    var resType = req.body.action.params.type
 
 
     var toSaveData = {
         name : userName,
         call : userCall,
         userReq : userReq,
-        isItReq : isItisItReq,
-        isItVoucher : isItVoucher,
+        resType : resType,
         reqCreated : getDate(),
         reqCreatedTime : getTime(),
-
     }
 	
 	console.log(toSaveData)
