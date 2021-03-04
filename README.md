@@ -28,11 +28,11 @@
 ![IMG_4816 2](https://user-images.githubusercontent.com/29947261/109918422-4074d980-7cfa-11eb-844a-1210a803f636.jpg)
 
 **사용자 문의 남기기**<br />
--사용자가 회신 받을 정보를 입력한다.
--사용자 문의 내용을 남긴다.
--서버에 관련 정보를 저장한다.
--tools on web을 이용해서 문의 내용을 조회하고, 답변을 남긴다.
--coolsms의 api를 이용해서 친구톡으로 답변 내용을 보낸다.
+-사용자가 회신 받을 정보를 입력한다.<br />
+-사용자 문의 내용을 남긴다.<br />
+-서버에 관련 정보를 저장한다.<br />
+-tools on web을 이용해서 문의 내용을 조회하고, 답변을 남긴다.<br />
+-coolsms의 api를 이용해서 친구톡으로 답변 내용을 보낸다.<br />
 ![IMG_4815 2](https://user-images.githubusercontent.com/29947261/109918418-3c48bc00-7cfa-11eb-93fe-23256cc50370.jpg)
 <hr />
 <h4>**Languages and Tools:**  </h4>
