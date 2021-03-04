@@ -16,18 +16,24 @@
 -카카오톡 플러스 친구 테스트 채널_CS<br />
 <hr />
 
+<hr />
+<h4>TO ADD</h4>
+-문의 남기기 << 사진 업로드 기능
+<hr />
+
 **배송조회**<br />
 -사용자의 이름과 전화번호 일부를 입력한다.<br />
 -서버에서 쿼리를 이용해서 사용자 배송정보를 찾는다.<br />
 -해당 배송 정보를 res한다.<br />
-(사진)
+![IMG_4816 2](https://user-images.githubusercontent.com/29947261/109918422-4074d980-7cfa-11eb-844a-1210a803f636.jpg)
+
 **사용자 문의 남기기**<br />
 -사용자가 회신 받을 정보를 입력한다.
 -사용자 문의 내용을 남긴다.
 -서버에 관련 정보를 저장한다.
 -tools on web을 이용해서 문의 내용을 조회하고, 답변을 남긴다.
 -coolsms의 api를 이용해서 친구톡으로 답변 내용을 보낸다.
-(사진)
+![IMG_4815 2](https://user-images.githubusercontent.com/29947261/109918418-3c48bc00-7cfa-11eb-93fe-23256cc50370.jpg)
 <hr />
 <h4>**Languages and Tools:**  </h4>
 
