@@ -4,7 +4,20 @@ var fs = require('fs');
 var request = require('request');
 const { UserReq } = require("../models/userReq");
 const { promisify } = require('util')
+var nodemailer = require('nodemailer');
 const sleep = promisify(setTimeout)
+
+var transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+      user: 'q',
+      pass: 'a'
+    }
+  });
+  
 
 function formatDate() {
     var date = new Date();
@@ -140,6 +153,45 @@ router.post('/', function(req, res) {
                     ]
                 }
             };
+
+            var mailOptions = {
+                from: 'qhdgkdbs@gmail.com',
+                to: 'seung-woo.bong@miele.com',
+                subject: `${getDate()} :: ${userName}님의 문의`,
+                html:  
+                    `<h1>${getDate()} :: ${userName}님의 문의</h1>
+                    <hr />
+                    <div><h4 style="display: inline;">고객명</h4> : ${userName}</div>
+                    <div><h4 style="display: inline;">고객 전화번호</h4> : ${userCall}</div>
+                    <div><h4 style="display: inline;">고객 문의 사항</h4> : ${userReq}</div>
+                    <div style="height:20px;"></div>
+                    <div>아래의 링크에서 확인가능합니다. (내부망 서버라서 메일에서 이미지를 볼 수 없습니다...)</div>
+                    <div>모든 내용은 http://10.10.0.210:3000/userReq 에서 확인할 수 있습니다.</div>
+                    <div style="height:20px;"></div>
+                    ${
+                        savedImageUrl.length > 0
+                        ?
+                            savedImageUrl.map((url)=>{
+                                var imgTag = "<div> http://10.10.0.210:5050/image/" + url.substring('D:/userImage/'.length) + "</div>" 
+                                console.log(imgTag)
+                                return imgTag
+                            })
+                        :
+                             "<div>이미지가 없습니다.</div>"
+                    }
+                    
+                    <hr />
+
+                    `
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+              });
 
 
             return res.status(200).send(responseBody);
