@@ -44,7 +44,10 @@ const userReqSchema = mongoose.Schema({
     isItRes : {
         type :Boolean,
         default : false
-    }
+    },
+    imgUrl : [{
+        type: String
+    }]
 })
 
 

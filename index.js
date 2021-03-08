@@ -3,7 +3,6 @@ const app = express();
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const config = require("./config/dev");
-var session = require('express-session')
 
 var helmet = require('helmet')
 
@@ -19,10 +18,7 @@ const connect = mongoose.connect(config.mongoURI,
 	
 app.use(helmet())
 app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 's3Cur3',
-  name: 'sessionId'
-}))
+
 app.disable('x-powered-by')
 app.use(logger('dev', {}));
 app.use(bodyParser.json());
@@ -30,6 +26,7 @@ app.use(bodyParser.json());
 app.use('/api/getMyTracking', require('./router/getMyTracking'));
 app.use('/api/saveReq', require('./router/saveReq'));
 app.use('/api/getTrackingData', require('./router/getDB_test'));
+
 
 
 
