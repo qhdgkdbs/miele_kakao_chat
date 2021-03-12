@@ -52,7 +52,7 @@ router.post('/', (req, res) => {
               {
                 action:  "webLink",
                 label: "대한통운",
-                webLinkUrl : `https://www.cjlogistics.com/ko/tool/parcel/tracking`
+                webLinkUrl : `https://www.doortodoor.co.kr/parcel/doortodoor.do?fsp_action=PARC_ACT_002&fsp_cmd=retrieveInvNoACT&invc_no=` + info["tracking"]
               }
             ]
           }
