@@ -3,10 +3,10 @@ const router = express.Router();
 var fs = require('fs');
 var request = require('request');
 const { UserReq } = require("../models/userReq");
-const { promisify } = require('util')
+const { EmailAddr } = require("../models/email");
+
 var nodemailer = require('nodemailer');
-const sleep = promisify(setTimeout)
-const { MIELE_MAIL_EMAIL, MIELE_MAIL_PW, GOOGLE_MAIL_PW, GOOGLE_MAIL_EMAIL } = require('../config')
+const { GOOGLE_MAIL_PW, GOOGLE_MAIL_EMAIL } = require('../config')
 
 var transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -155,6 +155,16 @@ router.post('/', function(req, res) {
                 }
             };
 
+
+            // const emailAddr = new EmailAddr({addr : ["qhdgkdbs@gmail.com","miele@miele.com"] });
+
+            // EmailAddr.find((err, data) => {
+            //     if(err){
+            //         console.log(err)
+            //     }
+            //     console.log("now", data[0].addr)
+            // })
+
             var mailOptions = {
                 from: 'qhdgkdbs@gmail.com',
                 to: 'seung-woo.bong@miele.com',
@@ -192,7 +202,7 @@ router.post('/', function(req, res) {
                 } else {
                   console.log('Email sent: ' + info.response);
                 }
-              });
+            });
 
 
             return res.status(200).send(responseBody);
