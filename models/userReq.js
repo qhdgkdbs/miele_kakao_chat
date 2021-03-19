@@ -47,7 +47,10 @@ const userReqSchema = mongoose.Schema({
     },
     imgUrl : [{
         type: String
-    }]
+    }],
+    pd_cat : {
+        type :String
+    },
 })
 
 

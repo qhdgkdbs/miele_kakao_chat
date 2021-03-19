@@ -74,6 +74,11 @@ router.post('/', function(req, res) {
 	var userCall = req.body.action.params.call
 	var userReq = req.body.action.params.req
     var resType = req.body.action.params.type
+    var pd_cat = req.body.action.params.pd_cat
+    if(!pd_cat){
+        pd_cat = "구입 상담"
+    }
+
 
     var savedImageUrl = []
 
@@ -113,7 +118,8 @@ router.post('/', function(req, res) {
             resType : resType,
             reqCreated : getDate(),
             reqCreatedTime : getTime(),
-            imgUrl : savedImageUrl
+            imgUrl : savedImageUrl,
+            pd_cat : pd_cat
         }
         
         console.log(toSaveData)
@@ -127,7 +133,7 @@ router.post('/', function(req, res) {
             if (err) {
                 //에러가 있을경우
                 sendText =  [   
-                                { simpleText: {text : "성함 : " + userName +"\n연락처 : "+userCall +"\n문의내용 : "+ userReq} },
+                                { simpleText: {text : "성함 : " + userName +"\n연락처 : "+userCall + "\n제품명 : "+pd_cat + "\n문의내용 : "+ userReq} },
                                 { simpleText: {text : "문의 저장에 실패 하였습니다. 고객센터로 연락부탁드립니다." } } 
                             ]
                 console.log(err)
@@ -135,7 +141,7 @@ router.post('/', function(req, res) {
             }else{
                 //에러가 없을 경우
                 sendText =  [   
-                                { simpleText: {text : "성함 : " + doc.name +"\n연락처 : "+doc.call +"\n문의내용 : "+ doc.userReq} },
+                                { simpleText: {text : "성함 : " + doc.name +"\n연락처 : "+doc.call + "\n제품명 : " + doc.pd_cat + "\n문의내용 : "+ doc.userReq} },
                                 { simpleText: {text : "문의 저장에 성공하였습니다." } } 
                             ]
             }
