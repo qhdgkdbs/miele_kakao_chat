@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const { Tracking } = require("../models/Tracking");
 const Axios = require('axios')
+var sanitize = require('mongo-sanitize');
 
 
 const whereIsMine = (trackingNumber, cb) => {
@@ -21,8 +22,8 @@ const whereIsMine = (trackingNumber, cb) => {
 
 router.post('/', (req, res) => {
 
-  var userName = req.body.action.params.name
-  var middleCall = req.body.action.params.middleCall
+  var userName = sanitize( req.body.action.params.name  )
+  var middleCall = sanitize( req.body.action.params.middleCall )
 
   Tracking.find({ name:  { $regex : userName} , number : middleCall }, (err, datas) => {
     if(err) return res.json(err)

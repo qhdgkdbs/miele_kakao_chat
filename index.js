@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 
 app.use('/api/getMyTracking', require('./router/getMyTracking'));
 app.use('/api/saveReq', require('./router/saveReq'));
-app.use('/api/getTrackingData', require('./router/getDB_test'));
+// app.use('/api/getTrackingData', require('./router/getDB_test'));
 
 
 

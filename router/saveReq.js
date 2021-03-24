@@ -4,6 +4,7 @@ var fs = require('fs');
 var request = require('request');
 const { UserReq } = require("../models/userReq");
 const { EmailAddr } = require("../models/email");
+var sanitize = require('mongo-sanitize');
 
 var nodemailer = require('nodemailer');
 const { GOOGLE_MAIL_PW, GOOGLE_MAIL_EMAIL } = require('../config')
@@ -69,12 +70,12 @@ router.post('/', function(req, res) {
         urlArr = []
     }
 
-    var id = req.body.action.id
-	var userName = req.body.action.params.name
-	var userCall = req.body.action.params.call
-	var userReq = req.body.action.params.req
-    var resType = req.body.action.params.type
-    var pd_cat = req.body.action.params.pd_cat
+    var id = sanitize( req.body.action.id  )
+	var userName = sanitize( req.body.action.params.name )
+	var userCall = sanitize( req.body.action.params.call )
+	var userReq = sanitize( req.body.action.params.req )
+    var resType = sanitize( req.body.action.params.type )
+    var pd_cat = sanitize( req.body.action.params.pd_cat )
     if(!pd_cat){
         pd_cat = "구입 상담"
     }
