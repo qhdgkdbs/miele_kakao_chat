@@ -42,7 +42,8 @@ function formatTime(){
     var hours = date.getHours();
     var minutes = date.getMinutes();
     minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + '' + minutes
+    hours = hours < 10 ? '0'+hours : hours;
+    var strTime = hours + '' + minutes;
 
     return strTime
 }
