@@ -15,9 +15,31 @@ const whereIsMine = (trackingNumber, cb) => {
 
     cb(res.data)
   }).catch(err =>{
-    console.log(err)
+    cb("err")
   })
 
+}
+
+const thereIsNoTrackingNum = 
+{
+    version: "2.0",
+    template: {
+      outputs: [
+          {
+            simpleText: { text: "죄송합니다. \n고객님의 배송 조회가 불가능합니다.\n주문 데이터가 없거나, \n상품 준비 중일수 있습니다."  }
+          },
+          {
+            simpleText: { text: "고객센터 혹은 챗봇에 \n문의 남기기 기능을 \n이용하여 문의를 남겨주세요."  }
+          }
+        ],
+        quickReplies: [
+          {
+              "messageText": "첫 화면으로 돌아가기",
+              "action": "message",
+              "label": "첫 화면으로 돌아가기"
+          }
+      ]
+    }
 }
 
 router.post('/', (req, res) => {
@@ -39,6 +61,14 @@ router.post('/', (req, res) => {
         var shippingDescription
   
         whereIsMine(info.tracking, data => {
+
+          // if(data === "err"){
+          //   console.log("err111")
+          //   res.status(200).json(thereIsNoTrackingNum);
+          //   return; 
+          // }
+
+          console.log("jerr")
           // console.log(data)
           shippingState = data.state.text;
           shippingDescription = data.progresses[data.progresses.length - 1].description
@@ -88,31 +118,12 @@ router.post('/', (req, res) => {
           console.log(data.template.outputs)
   
           setTimeout(() => {
-            return res.json(data)
+            res.json(data)
+            return;
           }, 500)
     }else{
-      var responseBody = {
-        version: "2.0",
-        template: {
-          outputs: [
-              {
-                simpleText: { text: "죄송합니다. \n고객님의 배송 조회가 불가능합니다.\n주문 데이터가 없거나, \n상품 준비 중일수 있습니다."  }
-              },
-              {
-                simpleText: { text: "고객센터 혹은 챗봇에 \n문의 남기기 기능을 \n이용하여 문의를 남겨주세요."  }
-              }
-            ],
-            quickReplies: [
-              {
-                  "messageText": "첫 화면으로 돌아가기",
-                  "action": "message",
-                  "label": "첫 화면으로 돌아가기"
-              }
-          ]
-        }
-      };
-
-    res.status(200).send(responseBody);
+      res.json(thereIsNoTrackingNum);
+      return;
     }
   })
 })

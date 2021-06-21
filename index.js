@@ -23,9 +23,12 @@ app.disable('x-powered-by')
 app.use(logger('dev', {}));
 app.use(bodyParser.json());
 
+// 운송장 관련조회
 app.use('/api/getMyTracking', require('./router/getMyTracking'));
+// 문의 저장 부분
 app.use('/api/saveReq', require('./router/saveReq'));
-// app.use('/api/getTrackingData', require('./router/getDB_test'));
+// 사용자 이벤트 정보 저장 부분
+app.use('/api/event', require('./router/saveEvent'));
 
 
 
