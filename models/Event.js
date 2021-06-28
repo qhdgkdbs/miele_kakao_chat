@@ -18,10 +18,20 @@ const UserEveSchema = mongoose.Schema({
     },
     imgUrl : [{
         type: String
-    }]
+    }],
+    userAddr : {
+        type: String
+
+    },
+    userUrl : {
+        type: String
+
+    },    
+    userEtc : {
+        type: String
+
+    }
 })
-
-
 
 const UserEve = mongoose.model('UserEve', UserEveSchema);
 

@@ -5,9 +5,6 @@ var request = require('request');
 const { UserEve } = require("../models/Event");
 var sanitize = require('mongo-sanitize');
 
-var request = require('request');
-const axios = require('axios')
-
 function formatDate() {
     var date = new Date();
     var hours = date.getHours();
@@ -70,39 +67,70 @@ router.post('/', function(req, res) {
 
     var folderPath = "D:/userImage/" + getDate()
 
-    const googleSpreadSheetUrl = "https://script.google.com/macros/s/AKfycby78S9dMdiAGK3121Wah9bWjrtKN84dPWazgFblYai-LFMNJ2AV2RhTnPN2qNrKQHkwoQ/exec"
-
     if (!fs.existsSync(folderPath)){
         fs.mkdirSync(folderPath);
-    }  
+    }
+
+    // 다수 이미지 저장2    
+    urlArr.map((imageUrl) => {
+        request({
+            url : imageUrl,
+            encoding : null,
+        }, (err, res, body) => {
+            console.log(body instanceof Buffer)
+
+            var fileName = folderPath + "/"+ userName + "_" + Date.now() + ".png"
+
+            fs.writeFile(fileName , body, {
+                encoding : null
+            }, (err) => {
+                if(err)
+                    console.log(err)
+
+                savedImageUrl.push(fileName)
+                console.log("image saved")
+            })
+
+        })
+    })
 
     // 데이터 베이스 저장 with 파일 
+    setTimeout( () => {
+        var toSaveData = {
+            name : userName,
+            call : userCall,
+            reqCreated : getDate(),
+            reqCreatedTime : getTime(),
+            imgUrl : savedImageUrl,
+            userAddr : userAddr,
+            userUrl : userUrl,
+            userEtc : userEtc 
+        }
+        
+        console.log(toSaveData)
 
         var sendText;
 
-        axios
-            .post(googleSpreadSheetUrl, { 
-                "이름" : "userName", "번호" : "userCall", "주소" : "userAddr", "URL" : "userUrl", "기타" : "userEtc" 
-            })
-            .then( ( response, error ) => {
-            console.log(error)
-            console.log(response)
+        const userReqData = new UserEve(toSaveData);
 
-            if (error) {
+        userReqData.save((err, doc) => {
+            console.log("doc", doc)
+            if (err) {
                 //에러가 있을경우
                 sendText =  [   
                                 { simpleText: {text : "성함 : " + userName +"\n연락처 : "+ userCall } },
                                 { simpleText: {text : "이벤트 저장에 실패 하였습니다. 다시 시도 해주세요." } } 
                             ]
-                console.log(error)
+                console.log(err)
                 // return res.status(200).send(responseBody);
             }else{
                 //에러가 없을 경우
                 sendText =  [   
-                                { simpleText: {text : "성함 : " + userName + "\n연락처 : " + userCall + "\n주소 : " + userAddr + "\nURL 주소 : " + userUrl + "\n기타 : " + userEtc } },
+                                { simpleText: {text : "성함 : " + doc.name + "\n연락처 : " + doc.call + "\n주소 : " + doc.userUrl + "\nURL 주소 : " + doc.userAddr + "\n기타 : " + doc.userEtc} },
                                 { simpleText: {text : "이벤트 저장에 성공하였습니다." } } 
                             ]
             }
+
             var responseBody = {
                 version: "2.0",
                 template: {
@@ -120,6 +148,8 @@ router.post('/', function(req, res) {
 
             return res.status(200).send(responseBody);
         });
-    });
+    }, 500)
+      
+  });
 
   module.exports = router;
